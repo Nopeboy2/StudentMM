@@ -1,0 +1,36 @@
+﻿@page "/dashboard"
+
+@using AntDesign
+@using AntDesign.Charts
+@using Title = AntDesign.Charts.Title
+@using StudentMM.Common.Dtos.Teacher
+
+<h3>Chart</h3>
+
+<Select TItem="GiaoVienDto"
+        TItemValue="int?"
+        DataSource="@selectionGiaoViens"
+        @bind-Value="@_selectedTeacherId"
+        ValueName="@nameof(GiaoVienDto.MaGV)"
+        LabelName="@nameof(GiaoVienDto.HoTen)"
+        DefaultActiveFirstOption
+        Style="width: 200px;"
+        OnSelectedItemChanged="OnSelectedItemChangedHandler">
+</Select>
+
+<DownloadButton Type="ButtonType.Primary" Icon="@IconType.Outline.Download"
+                 OnClick="ExportToExcel">Export Excel</DownloadButton>
+
+
+<Tabs>
+    <TabPane Key="1">
+        <TabTemplate>Student</TabTemplate>
+        <ChildContent>
+            <AntDesign.Charts.Column Data="chartData" Config="config1" @key="chartData" />
+        </ChildContent>
+    </TabPane>
+</Tabs>
+    @if (!string.IsNullOrEmpty(errorMessage))
+{
+    <Alert Message="@errorMessage" Type="AlertType.Error" ShowIcon="true" />
+}

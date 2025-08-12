@@ -1,0 +1,37 @@
+﻿@using AntDesign
+@using StudentMM.Common.Dtos.Class
+@using StudentMM.Common.Dtos.Student
+
+@code {
+    [Parameter] public CreateSinhVienRequest? creatingStudent { get; set; }
+    [Parameter] public EventCallback HandleCreate { get; set; }
+    [Parameter] public EventCallback OnCloseCreateDrawer { get; set; }
+    [Parameter] public bool visibleCreateDrawer { get; set; }
+    [Parameter] public string drawerTitle { get; set; }
+    [Parameter] public List<LopHocDto> _lopHocSelect { get; set; }
+}
+
+
+<Drawer Closable="true" @bind-Visible="visibleCreateDrawer" Placement="DrawerPlacement.Right" Title='drawerTitle'>
+    <Form Model="@creatingStudent">
+        <FormItem Label="Tên Sinh Viên">
+            <Input @bind-Value="creatingStudent.HoTen" />
+        </FormItem>
+        <FormItem Label="Ngày Sinh">
+            <DatePicker @bind-Value="creatingStudent.NgaySinh" Format="dd-MM-yyyy" />
+        </FormItem>
+        <FormItem Label="Địa Chỉ">
+            <Input @bind-Value="creatingStudent.DiaChi" />
+        </FormItem>
+        <AntDesign.FormItem Label="Lớp Học">
+            <Select DataSource="@_lopHocSelect"
+                    @bind-Value="@creatingStudent.MaLop"
+                    ValueProperty="c=>c.MaLop"
+                    LabelProperty="c=>c.TenLop"
+                    Style="width:120px">
+            </Select>
+        </AntDesign.FormItem>
+        <button type="submit" class="ant-btn ant-btn-primary" @onclick="HandleCreate">Phê duyệt</button>
+        <button type="button" class="ant-btn" @onclick="OnCloseCreateDrawer">Hủy</button>
+    </Form>
+</Drawer>

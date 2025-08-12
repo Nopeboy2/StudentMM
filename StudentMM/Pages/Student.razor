@@ -1,0 +1,104 @@
+﻿@page "/student"
+
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization
+@using AntDesign
+@using AntDesign.TableModels
+@using StudentMM.Common.Dtos.Class
+@using StudentMM.Common.Dtos.Student
+
+
+<h3>Danh sách Sinh Viên</h3>
+
+<div class="mb-3">
+    <Input placeholder="Tìm kiếm sinh viên..." @bind-Value="searchTerm" @oninput="FilterStudents" style="width: 300px;" />
+</div>
+
+
+<Notification />
+
+<div class="d-flex justify-content-between mb-3">
+    <Button Type="ButtonType.Primary" OnClick="OnOpenCreateDrawer">Thêm Sinh Viên</Button>
+    <Button Type="ButtonType.Default" OnClick="SortByName">Sắp xếp theo tên</Button>
+    @* <Select TItem="int"
+            TItemValue="int"
+            DataSource="@pageSizeOptions"
+            @bind-Value="@pageSize"
+            OnChange="OnPageSizeChanged"
+            style="width: 120px;">
+    </Select> *@
+    <Select TItem="LopHocDto"
+            TItemValue="int?"
+            DataSource="@_lopHocDtos"
+            @bind-Value="@_selectedValue"
+            LabelName="@nameof(LopHocDto.TenLop)"
+            ValueName="@nameof(LopHocDto.MaLop)"
+            Placeholder="Select a class"
+            DefaultActiveFirstOption="false"
+            EnableSearch
+            style="width: 200px;"
+            OnSelectedItemChanged="OnSelectedItemChangedHandler"
+            FilterExpression="(item, searchValue) => CultureInfo.CurrentCulture.CompareInfo.IndexOf(item.Label, searchValue, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) >= 0">
+    </Select>
+</div>
+
+@if (filteredSinhViens != null && filteredSinhViens.Any())
+{
+    <Table TItem="SinhVienDto" Bordered="true" DataSource="filteredSinhViens">
+    <ColumnDefinitions Context="row" >
+        <GenerateColumns Definitions="@((n,c) => { c.Filterable = false; c.Sortable = false; })" />
+        <ActionColumn Title="Action">
+            <a @onclick="() => { if (row != null) OnOpenUpdateDrawer(row); }">Edit</a>
+            <Popconfirm Title="Are you sure to delete this task?"
+                    OnConfirm="@(() => Delete(row))"
+                    OnCancel="Cancel">
+                <a>Delete</a>
+            </Popconfirm>
+        </ActionColumn>
+    </ColumnDefinitions>
+</Table>
+<div style="margin-top: 20px;">
+    @* <Pagination PageIndex="@pageNumber"
+                PageSize="@pageSize"
+                Total="@totalStudent"
+                OnChange="OnPageChanged"></Pagination> *@
+        <Pagination PageIndex="@pageNumber"
+                    PageSize="@pageSize"
+                    PageSizeOptions="@pageSizeOptions"
+                    ShowSizeChanger="true"
+                    OnShowSizeChange="@(async args => await OnPageSizeChanged(args))"
+                    Total="@totalStudent"
+                    OnChange="OnPageChanged">
+        </Pagination>
+</div>
+    <style>
+        .ant-table-pagination {
+            display: none !important;
+        }
+    </style>
+
+}
+else
+{
+    <p>Không có dữ liệu.</p>
+}
+
+<div>
+<StudentMM.Pages.Components.CreateStudent
+creatingStudent="@creatingStudent" 
+OnCloseCreateDrawer="OnCloseCreateDrawer"
+HandleCreate="HandleCreate" 
+visibleCreateDrawer="@visibleCreateDrawer"
+_lopHocSelect="@_lopHocSelect"
+/>
+</div> 
+
+<div>
+<StudentMM.Pages.Components.UpdateStudent
+    HandleUpdate="HandleUpdate"
+    OnCloseUpdateDrawer="OnCloseUpdateDrawer"
+    visibleUpdateDrawer="@visibleUpdateDrawer"
+    _lopHocSelect="@_lopHocSelect"
+    updatingStudent="@updatingStudent"
+/>
+</div> 

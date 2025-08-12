@@ -1,0 +1,41 @@
+﻿@using AntDesign
+@using StudentMM.Common.Dtos.Class
+@using StudentMM.Common.Dtos.Student
+
+@code {
+    [Parameter] public UpdateSinhVienRequest? updatingStudent { get; set; }
+    [Parameter] public EventCallback HandleUpdate { get; set; }
+    [Parameter] public EventCallback OnCloseUpdateDrawer { get; set; }
+    [Parameter] public bool visibleUpdateDrawer { get; set; }
+    [Parameter] public string drawerTitle { get; set; }
+    [Parameter] public List<LopHocDto> _lopHocSelect { get; set; }
+}
+
+<Drawer Closable="true" @bind-Visible="visibleUpdateDrawer" Placement="DrawerPlacement.Right" Title='drawerTitle'>
+    <Form Model="@updatingStudent">
+        <FormItem Label="Mã Sinh Viên" style="display:none;">
+            <Input @bind-Value="updatingStudent.MaSo" />
+        </FormItem>
+        <FormItem Label="Tên Sinh Viên">
+            <Input @bind-Value="updatingStudent.HoTen" />
+        </FormItem>
+
+        <FormItem Label="Ngày Sinh">
+            <DatePicker @bind-Value="updatingStudent.NgaySinh" />
+        </FormItem>
+
+        <FormItem Label="Địa Chỉ">
+            <Input @bind-Value="updatingStudent.DiaChi" />
+        </FormItem>
+        <AntDesign.FormItem Label="Lớp Học">
+            <Select DataSource="@_lopHocSelect"
+                    @bind-Value="@updatingStudent.MaLop"
+                    ValueProperty="c => c.MaLop"
+                    LabelProperty="c => c.TenLop"
+                    Style="width:120px">
+            </Select>
+        </AntDesign.FormItem>
+        <button type="submit" class="ant-btn ant-btn-primary" @onclick="HandleUpdate">Phê duyệt</button>
+        <button type="button" class="ant-btn" @onclick="OnCloseUpdateDrawer">Hủy</button>
+    </Form>
+</Drawer>
