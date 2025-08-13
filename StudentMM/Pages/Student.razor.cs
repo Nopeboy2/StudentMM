@@ -186,22 +186,6 @@ namespace StudentMM.Pages
 
         // DRAWER
 
-        // CREATE
-        //private async void OnOpenCreateDrawer()
-        //{
-        //    creatingStudent = new CreateSinhVienRequest();
-        //    var lopHocs = await lophocService.GetAllLopHocAsync();
-        //    if (lopHocs != null)
-        //    {
-        //        _lopHocSelect = lopHocs.Data.ToList();
-        //    }
-        //    else
-        //    {
-        //        _lopHocSelect = new List<LopHocDto>();
-        //    }
-        //    drawerTitle = "Thêm Sinh Viên";
-        //    this.visibleCreateDrawer = true;
-        //}
         private async void OnOpenCreateDrawer()
         {
             creatingStudent = new CreateSinhVienRequest();

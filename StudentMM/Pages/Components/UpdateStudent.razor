@@ -11,7 +11,7 @@
     [Parameter] public List<LopHocDto> _lopHocSelect { get; set; }
 }
 
-<Drawer Closable="true" @bind-Visible="visibleUpdateDrawer" Placement="DrawerPlacement.Right" Title='drawerTitle'>
+<Drawer Closable="false" MaskClosable="false" @bind-Visible="visibleUpdateDrawer" Placement="DrawerPlacement.Right" Title='drawerTitle'>
     <Form Model="@updatingStudent">
         <FormItem Label="Mã Sinh Viên" style="display:none;">
             <Input @bind-Value="updatingStudent.MaSo" />
