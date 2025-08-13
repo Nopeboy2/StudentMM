@@ -19,14 +19,8 @@
 
 <div class="d-flex justify-content-between mb-3">
     <Button Type="ButtonType.Primary" OnClick="OnOpenCreateDrawer">Thêm Sinh Viên</Button>
+
     <Button Type="ButtonType.Default" OnClick="SortByName">Sắp xếp theo tên</Button>
-    @* <Select TItem="int"
-            TItemValue="int"
-            DataSource="@pageSizeOptions"
-            @bind-Value="@pageSize"
-            OnChange="OnPageSizeChanged"
-            style="width: 120px;">
-    </Select> *@
     <Select TItem="LopHocDto"
             TItemValue="int?"
             DataSource="@_lopHocDtos"
@@ -58,10 +52,6 @@
     </ColumnDefinitions>
 </Table>
 <div style="margin-top: 20px;">
-    @* <Pagination PageIndex="@pageNumber"
-                PageSize="@pageSize"
-                Total="@totalStudent"
-                OnChange="OnPageChanged"></Pagination> *@
         <Pagination PageIndex="@pageNumber"
                     PageSize="@pageSize"
                     PageSizeOptions="@pageSizeOptions"

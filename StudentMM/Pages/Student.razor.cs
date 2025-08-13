@@ -62,16 +62,6 @@ namespace StudentMM.Pages
                 }
                 else
                 {
-                    //sinhViens = response.Data.Items.ToList();
-                    //int startIndex = (pageNumber - 1) * pageSize + 1;
-                    //sinhViens = response.Data.Items
-                    //    .Select((sinhVien, index) =>
-                    //    {
-                    //        sinhVien.STT = startIndex + index;
-                    //        return sinhVien;
-                    //    })
-                    //    .ToList();
-                    //totalStudent = response.Data.TotalCount;
                     var items = response.Data.Items.ToList();
 
                     int startIndex = (pageNumber - 1) * pageSize + 1;
@@ -100,8 +90,8 @@ namespace StudentMM.Pages
         }
         private async Task OnPageSizeChanged(PaginationEventArgs args)
         {
-            pageSize = args.PageSize;  // Lấy kích thước trang mới
-            pageNumber = 1;            // Reset trang về 1
+            pageSize = args.PageSize;  
+            pageNumber = 1;            
             await LoadStudentsAsync();
         }
 
@@ -126,17 +116,6 @@ namespace StudentMM.Pages
 
         private async void OnSelectedItemChangedHandler(LopHocDto lopHocDto)
         {
-            //_selectedItem = lopHocDto;
-            //_selectedValue = lopHocDto.MaLop;
-
-            //if (_selectedValue != null)
-            //{
-            //    filteredSinhViens = sinhViens.Where(sv => sv.MaLop == _selectedValue).ToList();
-            //}
-            //else
-            //{
-            //    filteredSinhViens = new List<SinhVienDto>(sinhViens);
-            //}
             _selectedItem = lopHocDto;
             _selectedValue = lopHocDto?.MaLop;
 
@@ -208,25 +187,36 @@ namespace StudentMM.Pages
         // DRAWER
 
         // CREATE
+        //private async void OnOpenCreateDrawer()
+        //{
+        //    creatingStudent = new CreateSinhVienRequest();
+        //    var lopHocs = await lophocService.GetAllLopHocAsync();
+        //    if (lopHocs != null)
+        //    {
+        //        _lopHocSelect = lopHocs.Data.ToList();
+        //    }
+        //    else
+        //    {
+        //        _lopHocSelect = new List<LopHocDto>();
+        //    }
+        //    drawerTitle = "Thêm Sinh Viên";
+        //    this.visibleCreateDrawer = true;
+        //}
         private async void OnOpenCreateDrawer()
         {
             creatingStudent = new CreateSinhVienRequest();
             var lopHocs = await lophocService.GetAllLopHocAsync();
-            if (lopHocs != null)
-            {
-                _lopHocSelect = lopHocs.Data.ToList();
-            }
-            else
-            {
-                _lopHocSelect = new List<LopHocDto>();
-            }
+            _lopHocSelect = lopHocs?.Data.ToList() ?? new List<LopHocDto>();
             drawerTitle = "Thêm Sinh Viên";
-            this.visibleCreateDrawer = true;
+            visibleCreateDrawer = true;
+            StateHasChanged();
         }
+
 
         void OnCloseCreateDrawer()
         {
             visibleCreateDrawer = false;
+            StateHasChanged();
         }
 
         // UPDATE 
@@ -250,6 +240,7 @@ namespace StudentMM.Pages
         void OnCloseUpdateDrawer()
         {
             visibleUpdateDrawer = false;
+            StateHasChanged();
         }
 
 

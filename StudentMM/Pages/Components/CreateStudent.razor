@@ -6,13 +6,15 @@
     [Parameter] public CreateSinhVienRequest? creatingStudent { get; set; }
     [Parameter] public EventCallback HandleCreate { get; set; }
     [Parameter] public EventCallback OnCloseCreateDrawer { get; set; }
+    [Parameter] public EventCallback<bool> visibleCreateDrawerChanged { get; set; }
     [Parameter] public bool visibleCreateDrawer { get; set; }
     [Parameter] public string drawerTitle { get; set; }
     [Parameter] public List<LopHocDto> _lopHocSelect { get; set; }
+
 }
 
 
-<Drawer Closable="true" @bind-Visible="visibleCreateDrawer" Placement="DrawerPlacement.Right" Title='drawerTitle'>
+<Drawer Closable="false" MaskClosable="false" @bind-Visible="visibleCreateDrawer" Placement="DrawerPlacement.Right" Title='drawerTitle'>
     <Form Model="@creatingStudent">
         <FormItem Label="Tên Sinh Viên">
             <Input @bind-Value="creatingStudent.HoTen" />
